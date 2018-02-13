@@ -1,0 +1,51 @@
+---
+title: "Lecture 11"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## GitHub Documents
+
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+
+## Including Code
+
+You can include R code in the document as follows:
+```{r}
+library(bio3d)
+```
+
+# Download some example PDB files 
+```{r}
+ids <- c("1TND_B","1AGR_A", "1TAG_A","1GG2_A","1KJY_A","4G5Q_A")
+files <- get.pdb(ids, split = TRUE)
+```
+# Extract and align the chains we are interested in & print to screen a summary of the 'pdbs' object
+```{r}
+pdbs <- pdbaln(files, fit = TRUE)
+pdbs
+```
+
+# Access the first 5 rows, and 8 columns 
+```{r}
+pdbs$ali[1:5, 1:8]
+```
+# Associated residues numbers 
+```{r}
+pdbs$resno[1:5, 1:8]
+```
+
+#Inspect alignment for gaps, indices of non-gap columns, & access non-gap columns
+```{r}
+gaps <- gap.inspect(pdbs$ali)   
+head(gaps$f.inds) 
+pdbs$ali[, gaps$f.inds]
+```
+#calculate sequence identity
+```{r}
+seqidentity(pdbs)
+```
+
